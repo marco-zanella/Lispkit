@@ -1,0 +1,9 @@
+let
+  apply = lambda(f x)
+    f(x)
+  and double = lambda(x)
+    x * 2
+in
+  apply(double, 21)
+end
+$

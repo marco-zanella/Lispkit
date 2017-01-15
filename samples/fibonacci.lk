@@ -1,0 +1,9 @@
+letrec
+  FIB = lambda(x)
+    if leq(x, 2)
+    then 1
+    else FIB(x-1) + FIB(x-2)
+in
+  FIB(5)
+end
+$

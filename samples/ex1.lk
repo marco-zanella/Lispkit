@@ -1,0 +1,7 @@
+let
+  x = 5
+  and y = 6
+in
+  x * 3  +  y * 2 * x  +  x * y
+end
+$

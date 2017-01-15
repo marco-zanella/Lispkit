@@ -1,0 +1,7 @@
+let
+  f = lambda(a b)
+    a + b
+in
+  f
+end
+$

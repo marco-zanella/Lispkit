@@ -1,0 +1,9 @@
+letrec
+  A = lambda(m n)
+    if eq(m, 0) then n + 1
+    else if eq(n, 0) then A(m-1, 1)
+    else A(m-1, A(m, n-1))
+in
+  A(3, 6)
+end
+$

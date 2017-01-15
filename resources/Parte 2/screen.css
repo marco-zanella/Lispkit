@@ -1,0 +1,67 @@
+#main-container{
+ font-family:Courier New;
+ font-size:1em;
+ 
+ border:1px solid red;
+}
+
+
+
+#grammar-source{
+ padding:0.5em;
+ border:0.1em solid #999;
+}
+
+
+
+#grammar-first-follow{
+ border:0.1em solid #999;
+}
+
+#grammar-first-follow thead tr td{
+ font-weight:bold;
+ text-align:center;
+
+ border:1px solid blue;
+}
+
+#grammar-first-follow thead tr td.NT{
+ width:10%;
+}
+
+#grammar-first-follow thead tr td.First{
+ width:30%;
+}
+
+#grammar-first-follow thead tr td.Follow{
+ width:60%;
+}
+
+#grammar-first-follow tbody tr td{
+ border-bottom:0.1em solid #999;
+}
+
+#grammar-first-follow tbody tr td:first-child{
+ font-weight:bold;
+}
+
+
+
+
+#grammar-parsing-table tr td{
+ text-align:center;
+ border-right:1px solid gray;
+ border-bottom:1px solid gray;
+}
+
+#grammar-parsing-table thead tr td{
+ font-weight:bold;
+}
+
+#grammar-parsing-table tr td.T{
+ width:4%;
+}
+
+#grammar-parsing-table tr td:first-child{
+ font-weight:bold;
+}

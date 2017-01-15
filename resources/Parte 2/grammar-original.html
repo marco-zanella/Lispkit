@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<html lang="it">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <meta name="robots" content="index, follow" />
+  
+  <title>Grammar - Original</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="./screen.css" />
+   <link rel="stylesheet" type="text/css" media="print" href="./print.css" />
+   
+   <link rel="shortcut icon" href="" />
+   
+   <script type="text/javascript" language="javascript">
+    function newlineToBr(id){
+     var element;
+     var text;
+     var newtext;
+     
+     element = document.getElementById(id);
+     text = element.innerHTML;
+     
+     element.innerHTML = text.replace(/\n\n/g, "<br />");
+    }
+   </script>
+   
+   <script src="./grammar.js"></script>
+ </head>
+ 
+ <body>
+  <div id="main-container">
+   <!-- Grammar source code. -->
+   <h1>Formal definition of the given LispKit grammar</h1>
+   <div id="grammar-source">
+    G = (NT, T, R, S) where:
+    <ul>
+     <li>NT = {Prog Bind X Exp ExpA E1 T T1 F Y OPA OPM OPP Seq_Exp Seq_Var}</li>
+     <li>T = {let letrec in end = and lambda if then else exp_const ( ) + - * / cons car cdr eq leq atom var}</li>
+     <li>S &in; NT, S = Prog</li>
+     <li>R &in; &weierp;(NT &times; (NT &Union; T &Union; {&epsilon;})) is identified by:
+    </ul>
+    Prog ::= let Bind in Exp end
+           | letrec Bind in Exp
+           | &epsilon;
+
+    Bind ::= var = Exp X
+
+    X ::= and Bind
+        | &epsilon;
+
+    Exp ::= Prog
+          | lambda (Seq_Var) Exp
+          | ExpA
+          | OPP (Seq_Exp)
+          | if Exp then Exp else Exp
+
+    ExpA ::= T E<sub>1</sub>
+
+    E<sub>1</sub> ::= OPA T E<sub>1</sub>
+         | &epsilon;
+
+    T ::= F T<sub>1</sub>
+
+    T<sub>1</sub> ::= OPM F T<sub>1</sub>
+         | &epsilon;
+
+    F ::= var Y
+        | exp_const
+        | (ExpA)
+
+    Y ::= (Seq_Exp)
+        | &epsilon;
+
+    OPA ::= +
+          | -
+
+    OPM ::= *
+          | /
+
+    OPP ::= cons
+          | car
+          | cdr
+          | eq
+          | leq
+          | atom
+
+    Seq_Exp ::= Exp Seq_Exp
+              | &epsilon;
+
+    Seq_Var ::= var Seq_Var
+              | &epsilon;
+   </div>
+   <script> window.onload=newlineToBr('grammar-source');</script>
+   
+   
+   
+   <!-- Grammar first and follow. -->
+   <script type="text/javascript">
+    /* A new grammar is created. */
+    var grammar = new G(
+     new Array(
+      "let", "letrec", "in", "end", "=", "and", "lambda", "if", "then", "else",
+      "exp_const", "(", ")", "+", "-", "*", "/", "cons", "car", "cdr", "eq",
+      "leq", "atom", "var"
+     ),
+     new Array(
+      "Prog", "Bind", "X", "Exp", "ExpA", "E1", "T", "T1", "F", "Y", "OPA", "OPM",
+      "OPP", "Seq_Exp", "Seq_Var"
+     )
+    );
+    
+    /* For every Non Terminal, its first is added. */
+    var GNT = grammar.NT;
+    GNT.Prog.addFirst(['let', 'letrec']);
+    GNT.Bind.addFirst(['var']);
+    GNT.X.addFirst(['and', '&epsilon;']);
+    GNT.Exp.addFirst(
+     ['lambda', 'if', 'let', 'letrec', 'cons', 'car', 'cdr', 'eq', 'leq', 'atom',
+      'var', 'exp_const', '(']
+    );
+    GNT.ExpA.addFirst(['var', 'exp_const', '(']);
+    GNT.E1.addFirst(['+', '-', '&epsilon;']);
+    GNT.T.addFirst(['var', 'exp_const', '(']);
+    GNT.T1.addFirst(['*', '/', '&epsilon;']);
+    GNT.F.addFirst(['var', 'exp_const', '(']);
+    GNT.Y.addFirst(['(', '&epsilon;']);
+    GNT.OPA.addFirst(['+', '-']);
+    GNT.OPM.addFirst(['*', '/']);
+    GNT.OPP.addFirst(['cons', 'car', 'cdr', 'eq', 'leq', 'atom']);
+    GNT.Seq_Exp.addFirst(
+     ['lambda', 'if', 'let', 'letrec', 'cons', 'car', 'cdr', 'eq', 'leq', 'atom',
+      'var', 'exp_const', '(', '&epsilon;']
+    );
+    GNT.Seq_Var.addFirst(['var', '&epsilon;']);
+    
+    /* For every Non Terminal, its follow is added. */
+    GNT.Prog.addFollow(
+     [')', 'end', 'and', 'then', 'else', 'lambda', 'if', 'let', 'letrec',
+      'cons', 'car', 'cdr', 'eq', 'leq', 'atom', 'var', 'exp_const', '(', 'in']
+    );
+    GNT.Bind.addFollow(['in']);
+    GNT.X.addFollow(['in']);
+    GNT.Exp.addFollow(
+     [')', 'end', 'and', 'then', 'else', 'lambda', 'if', 'let', 'letrec',
+      'cons', 'car', 'cdr', 'eq', 'leq', 'atom', 'var', 'exp_const', '(', 'in']
+    );
+    GNT.ExpA.addFollow(
+     [')', 'end', 'and', 'then', 'else', 'lambda', 'if', 'let', 'letrec',
+      'cons', 'car', 'cdr', 'eq', 'leq', 'atom', 'var', 'exp_const', '(', 'in']
+    );
+    GNT.E1.addFollow(
+     [')', 'end', 'and', 'then', 'else', 'lambda', 'if', 'let', 'letrec',
+      'cons', 'car', 'cdr', 'eq', 'leq', 'atom', 'var', 'exp_const', '(', 'in']
+    );
+    GNT.T.addFollow(
+     ['+', '-', ')', 'end', 'and', 'then', 'else', 'lambda', 'if', 'let',
+      'letrec', 'cons', 'car', 'cdr', 'eq', 'leq', 'atom', 'var', 'exp_const',
+      '(', 'in']
+    );
+    GNT.T1.addFollow(
+     ['+', '-', ')', 'end', 'and', 'then', 'else', 'lambda', 'if', 'let',
+      'letrec', 'cons', 'car', 'cdr', 'eq', 'leq', 'atom', 'var', 'exp_const',
+      '(', 'in']
+    );
+    GNT.F.addFollow(
+     ['*', '/', '+', '-', ')', 'end', 'and', 'then', 'else', 'lambda', 'if',
+      'let', 'letrec', 'cons', 'car', 'cdr', 'eq', 'leq', 'atom', 'var',
+      'exp_const', '(', 'in']
+    );
+    GNT.Y.addFollow(
+     ['*', '/', '+', '-', ')', 'end', 'and', 'then', 'else', 'lambda', 'if',
+      'let', 'letrec', 'cons', 'car', 'cdr', 'eq', 'leq', 'atom', 'var',
+      'exp_const', '(', 'in']
+    );
+    GNT.OPA.addFollow(['var', 'exp_const', '(']);
+    GNT.OPM.addFollow(['var', 'exp_const', '(']);
+    GNT.OPP.addFollow(['(']);
+    GNT.Seq_Exp.addFollow([')']);
+    GNT.Seq_Var.addFollow([')']);
+   </script>
+   <h1>First and Follow for the given LispKit grammar</h1>
+   <table id="grammar-first-follow">
+    <thead>
+     <tr>
+      <td class="NT">Non Terminal</td>
+      <td class="First">First Set</td>
+      <td class="Follow">Follow Set</td>
+     </tr>
+    </thead>
+    
+    <tbody>
+     <script type="text/javascript">
+      for(var i in grammar.NT){
+       document.write('<tr>');
+       document.write('<td>' + grammar.NT[i].name + '</td>');
+       
+       document.write('<td>');
+       for(var j in grammar.NT[i].first){
+        document.write(grammar.NT[i].first[j] + " ");
+       }
+       document.write('</td>');
+       
+       document.write('<td>');
+       for(var j in grammar.NT[i].follow){
+        document.write(grammar.NT[i].follow[j] + " ");
+       }
+       document.write('</td>');
+       document.write('</tr>');
+      }
+     </script>
+    </tbody>
+   </table>
+  </div>
+ </body>
+</html>

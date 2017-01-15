@@ -1,0 +1,11 @@
+let
+  z = 2
+in
+  letrec
+    x = 2 + z
+    and y = 2 * z
+  in
+    x * y * z
+  end
+end
+$

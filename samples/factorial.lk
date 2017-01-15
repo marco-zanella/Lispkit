@@ -1,0 +1,7 @@
+letrec
+  FACT = lambda(n)
+    if eq(n,0) then 1 else n * FACT(n-1)
+in
+  FACT(5)
+end
+$

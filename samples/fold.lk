@@ -1,0 +1,16 @@
+letrec
+  f0 = lambda(x)
+    letrec
+      f1 = lambda(y)
+        letrec f2 = lambda(z)
+          if eq(z, 1) then 1 else z * f2(z - 1)
+        in
+          if eq(y, nil) then 0 else f2(car(y)) + f1(cdr(y))
+        end
+    in
+      if eq(x, nil) then nil else cons (f1(car(x)), f0(cdr(x)))
+    end
+in
+  f0(cons(cons(3, cons(3, nil)), cons(cons(3 , nil), nil)))
+end
+$
